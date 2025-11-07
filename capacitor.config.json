@@ -1,0 +1,6 @@
+{
+  "appId": "com.yourcompany.nfccard",
+  "appName": "NFC Business Card",
+  "webDir": "./",
+  "bundledWebRuntime": false
+}

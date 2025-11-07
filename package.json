@@ -1,0 +1,17 @@
+{
+  "name": "nfc-business-card-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --minify",
+    "dev:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
+    "start": "npx serve -s . -l 5000",
+    "build": "npm run build:css"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.0",
+    "postcss": "^8.0.0",
+    "serve": "^14.0.0",
+    "tailwindcss": "^4.1.17"
+  }
+}

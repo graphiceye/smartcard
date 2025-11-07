@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NFC Business Card — Charles Osei Asibey</title>
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#D4AF37",
+            "primary-red": "#EF4444",
+            "primary-green": "#22C55E",
+            "background-light": "#f6f7f8",
+            "background-dark": "#000000",
+          },
+          fontFamily: { display: ["Manrope", "sans-serif"] },
+          borderRadius: { DEFAULT: "0.5rem", lg: "1rem", xl: "1.5rem", full: "9999px" }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { min-height: max(884px, 100dvh); }
+
+    /* SPLASH styles */
+    #splash {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, white 0%, #f3f3f3 100%);
+      z-index: 50;
+      transition: opacity .45s ease, visibility .45s ease;
+      will-change: opacity;
+    }
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* logo */
+    #splash .logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 9999px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    /* pulse ring */
+    .pulse-ring {
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at center, rgba(212,175,55,0.12), transparent 40%);
+      animation: pulse 1.8s infinite ease-out;
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(.9); opacity: .9; }
+      50% { transform: scale(1.06); opacity: .65; }
+      100% { transform: scale(1); opacity: .9; }
+    }
+
+    /* spinner */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 4px solid rgba(0,0,0,0.08);
+      border-top-color: rgba(212,175,55,0.95);
+      animation: spin 1s linear infinite;
+      margin-top: 18px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .pulse-ring, .spinner { animation: none; }
+      #splash { transition: none; }
+    }
+
+    /* Make sure main content is hidden until splash removed to avoid flash */
+    #app {
+      opacity: 1;
+      transition: opacity .35s ease;
+    }
+    #app.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-stone-900 dark:text-white">
+  <!-- SPLASH -->
+  <div id="splash" role="status" aria-live="polite" aria-label="Loading profile">
+    <div class="relative flex flex-col items-center justify-center">
+      <div class="pulse-ring" aria-hidden="true"></div>
+      <div id="splashLogo" class="logo" style='background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHe5bz_0cyllasC_VjTlk1DbYG5gnUZv4TUA&s");' aria-hidden="true"></div>
+      <div class="mt-4 text-center">
+        <p class="text-lg font-semibold">Charles Osei Asibey</p>
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="mt-2 text-sm text-stone-600 dark:text-stone-400">Loading…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP (hidden while splash shows) -->
+  <div id="app" class="relative flex min-h-screen flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-20 flex items-center justify-between bg-background-light/80 p-4 backdrop-blur-sm dark:bg-background-dark/80">
+      <button id="backBtn" aria-label="Back" class="flex items-center gap-2">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <button id="shareBtn" aria-label="Share contact" class="flex h-10 w-10 items-center justify-center rounded-xl bg-transparent">
+          <span class="material-symbols-outlined">share</span>
+        </button>
+        <button id="themeToggle" aria-label="Toggle theme" class="flex h-10 w-10 items-center justify-center rounded-xl bg-transparent">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex w-full flex-col gap-5 px-4 pb-12">
+      <!-- Profile -->
+      <section class="flex flex-col items-center gap-4 py-4">
+        <div class="flex flex-col items-center gap-3">
+          <div
+            id="profileImage"
+            class="h-32 w-32 rounded-full bg-cover bg-center"
+            role="img"
+            aria-label="Professional headshot of Charles Osei Asibey"
+            style='background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHe5bz_0cyllasC_VjTlk1DbYG5gnUZv4TUA&s");'>
+          </div>
+
+          <div class="text-center">
+            <p class="text-[22px] font-bold leading-tight tracking-[-0.015em]">Charles Osei Asibey</p>
+            <p class="max-w-xs text-sm text-stone-600 dark:text-stone-400">Vice President GAF • President AAF • Vice President WAF • Vice President Ghana Athletics • Gen. Sec. SWAG</p>
+          </div>
+        </div>
+
+        <div class="w-full max-w-[480px]">
+          <button id="saveContactBtn" class="w-full h-10 rounded-lg bg-primary px-4 text-sm font-bold text-black" aria-label="Save contact">
+            Save Contact
+          </button>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section class="@container">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(80px,_1fr))] gap-2">
+          <a id="callAction" href="tel:+233209818181" class="flex flex-col items-center gap-2 rounded-xl bg-white p-2.5 text-center dark:bg-neutral-900" aria-label="Call phone">
+            <div class="rounded-full bg-primary-red/20 p-2.5">
+              <span class="material-symbols-outlined text-primary-red">call</span>
+            </div>
+            <p class="text-sm font-medium">Call</p>
+          </a>
+
+          <a id="emailAction" href="mailto:charles.asibey@gmail.com" class="flex flex-col items-center gap-2 rounded-xl bg-white p-2.5 text-center dark:bg-neutral-900" aria-label="Send email">
+            <div class="rounded-full bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined text-primary">email</span>
+            </div>
+            <p class="text-sm font-medium">Email</p>
+          </a>
+
+          <a id="waAction" href="https://wa.me/233209818181" target="_blank" rel="noopener" class="flex flex-col items-center gap-2 rounded-xl bg-white p-2.5 text-center dark:bg-neutral-900" aria-label="Open WhatsApp">
+            <div class="rounded-full bg-primary-green/20 p-2.5">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M16.6 14.2c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6s0-.3.1-.4.2-.2.4-.4.2-.3.2-.4.1-.2 0-.4-.6-1.5-.8-2-.2-.4-.4-.4h-.4c-.2 0-.4 0-.6.1-.2.1-.5.2-.8.5-.2.3-.6.7-.6 1.7s.6 2 .7 2.1c.1.1 1.2 1.9 3 2.6.4.2.7.3 1 .4.5.1.8.1.9.1.2 0 .5-.1.7-.2.2-.2.5-.6.7-.8.1-.2.1-.3 0-.4-.1-.1-.2-.2-.4-.3zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/>
+              </svg>
+            </div>
+            <p class="text-sm font-medium">WhatsApp</p>
+          </a>
+
+          <a id="siteAction" href="https://www.charlesasibey.org" target="_blank" rel="noopener" class="flex flex-col items-center gap-2 rounded-xl bg-white p-2.5 text-center dark:bg-neutral-900" aria-label="Visit website">
+            <div class="rounded-full bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined text-primary">public</span>
+            </div>
+            <p class="text-sm font-medium">Website</p>
+          </a>
+
+          <a id="tiktokAction" href="https://www.tiktok.com/@charlesasibey" target="_blank" rel="noopener" class="flex flex-col items-center gap-2 rounded-xl bg-white p-2.5 text-center dark:bg-neutral-900" aria-label="Open TikTok">
+            <div class="rounded-full bg-black/90 p-2.5">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill="white" d="M12.5 2v8.1c-1.1-.1-2.2-.4-3.2-.8v6.1c0 2.8-2.2 5-5 5-2.8 0-5-2.2-5-5s2.2-5 5-5V5.5c1.6 1 3.6 1.6 5.6 1.6V2h2.1z"/>
+              </svg>
+            </div>
+            <p class="text-sm font-medium">TikTok</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Contact Details -->
+      <section>
+        <h2 class="pb-3 pt-5 text-[22px] font-bold">Contact Details</h2>
+
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined">phone</span>
+            </div>
+            <div>
+              <p class="font-medium">+233 209818181</p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Mobile (tap to call, right-click to copy)</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined">mail</span>
+            </div>
+            <div>
+              <p class="font-medium">charles.asibey@gmail.com</p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Email (tap to email, right-click to copy)</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined">public</span>
+            </div>
+            <div>
+              <p class="font-medium"><a id="websiteLink" href="https://www.charlesasibey.org" target="_blank" rel="noopener" class="underline">www.charlesasibey.org</a></p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Website (tap to open, right-click to copy)</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="flex items-center justify-center rounded-lg bg-black/90 p-2.5">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.5 2v8.1c-1.1-.1-2.2-.4-3.2-.8v6.1c0 2.8-2.2 5-5 5-2.8 0-5-2.2-5-5s2.2-5 5-5V5.5c1.6 1 3.6 1.6 5.6 1.6V2h2.1z"/></svg>
+            </div>
+            <div>
+              <p class="font-medium"><a id="tiktokLink" href="https://www.tiktok.com/@charlesasibey" target="_blank" rel="noopener" class="underline">@charlesasibey</a></p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">TikTok (tap to open, right-click to copy)</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="flex items-center justify-center rounded-lg bg-primary/20 p-2.5">
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h11.62V14.71h-3.18v-3.7h3.18v-2.8c0-3.14 1.87-4.85 4.7-4.85 1.35 0 2.5.1 2.84.15v3.3h-1.96c-1.52 0-1.82.72-1.82 1.78v2.32h3.67l-.48 3.7h-3.2v9.29h6.18c.97 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0z"/></svg>
+            </div>
+            <div>
+              <p class="font-medium">@charles.osei.asibey</p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Social Media</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sports Activities -->
+      <section>
+        <h2 class="pb-3 pt-5 text-[22px] font-bold">Sports Activities</h2>
+        <div class="flex flex-col gap-2">
+          <article class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="rounded-lg bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined">sports_kabaddi</span>
+            </div>
+            <div>
+              <p class="font-medium">Armwrestling Events</p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Organizing major competitions and initiatives to promote the sport.</p>
+            </div>
+          </article>
+
+          <article class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="rounded-lg bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined">sports</span>
+            </div>
+            <div>
+              <p class="font-medium">Olympic Games</p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Highlighting participation and contributions to the Olympic movement.</p>
+            </div>
+          </article>
+
+          <article class="flex items-center gap-4 rounded-xl bg-white p-4 dark:bg-neutral-900">
+            <div class="rounded-lg bg-primary/20 p-2.5">
+              <span class="material-symbols-outlined">fitness_center</span>
+            </div>
+            <div>
+              <p class="font-medium">Weightlifting</p>
+              <p class="text-sm text-stone-600 dark:text-stone-400">Active involvement and support for athletes and events.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Achievement gallery -->
+      <section>
+        <h2 class="pb-3 pt-5 text-[22px] font-bold">Sports Achievement</h2>
+        <div class="grid grid-cols-2 gap-2">
+          <img alt="Ghanaian athletes competing in an armwrestling match." class="aspect-square w-full object-cover rounded-xl" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_AvZuzcocqssuujL2z3m17ju5qopmwsW5AQ&s" />
+          <img alt="Ghana armwrestling team posing with medals." class="aspect-square w-full object-cover rounded-xl" src="https://dailyguidenetwork.com/wp-content/uploads/2019/05/Swag-honors-Osei-Asibey-620x406.jpg" />
+          <img alt="Ghanaian Olympic athlete competing in track and field." class="aspect-square w-full object-cover rounded-xl" src="https://pbs.twimg.com/media/GaZRlfGXkAAUZq0.jpg" />
+          <img alt="Weightlifter from Ghana lifting weights." class="aspect-square w-full object-cover rounded-xl" src="https://accrastreetjournal.com/wp-content/uploads/2025/03/Independence-Armwrestling-Challenge-Ghanas-Sports-Minister-Celebrates-Big-Wins-by-Grace-Minta-Wisdom-Abromekyi-Joshua-Yeboah.jpg" />
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Script: splash control + interactions & vCard generation -->
+  <script>
+    (function () {
+      "use strict";
+
+      /**
+       * SPLASH behavior:
+       * - show splash until DOMContentLoaded + images loaded OR minimum timeout
+       * - then fade splash and reveal #app
+       */
+      const splash = document.getElementById("splash");
+      const app = document.getElementById("app");
+      const MIN_SPLASH_MS = 700; // minimum time splash shows (ms)
+      const MAX_SPLASH_MS = 4500; // safety maximum (ms) to avoid stuck splash
+
+      // Preload important images (logo/profile)
+      const imgsToLoad = [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHe5bz_0cyllasC_VjTlk1DbYG5gnUZv4TUA&s"
+      ];
+
+      function preloadImages(urls) {
+        return Promise.all(urls.map(u => new Promise((res) => {
+          const i = new Image();
+          i.src = u;
+          if (i.complete) return res();
+          i.onload = res;
+          i.onerror = res;
+        })));
+      }
+
+      const start = Date.now();
+      let finished = false;
+
+      function hideSplash() {
+        if (finished) return;
+        finished = true;
+        // fade splash
+        splash.classList.add("hidden");
+        // reveal app
+        app.classList.remove("hidden");
+        // after transition, remove #splash from DOM to free memory
+        setTimeout(() => {
+          if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+        }, 600);
+      }
+
+      // Ensure #app is hidden initially (CSS handled), but set class just in case
+      app.classList.add("hidden");
+
+      // Start loading
+      Promise.race([
+        (async () => {
+          // wait for DOM ready + images
+          await new Promise(resolve => {
+            if (document.readyState === "complete" || document.readyState === "interactive") return resolve();
+            document.addEventListener("DOMContentLoaded", resolve, { once: true });
+          });
+          await preloadImages(imgsToLoad);
+          return "loaded";
+        })(),
+        // max timeout safety
+        new Promise(resolve => setTimeout(() => resolve("timeout"), MAX_SPLASH_MS))
+      ]).then(() => {
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, MIN_SPLASH_MS - elapsed);
+        setTimeout(hideSplash, remaining);
+      }).catch(() => {
+        // on any error, hide splash after minimum
+        setTimeout(hideSplash, MIN_SPLASH_MS);
+      });
+
+      /* ------------------------------------------------------------------
+         Rest of app interactions & vCard (kept from previous implementation)
+         ------------------------------------------------------------------ */
+      const contact = {
+        fullName: "Charles Osei Asibey",
+        givenName: "Charles",
+        familyName: "Asibey",
+        org: "Ghana Athletics / AAF",
+        title: "Sports Administrator",
+        phone: "+233209818181",
+        email: "charles.asibey@gmail.com",
+        twitter: "@charles.osei.asibey",
+        website: "https://www.charlesasibey.org",
+        tiktok: "https://www.tiktok.com/@charlesasibey",
+        note: "Vice President GAF • President AAF • Vice President WAF • Vice President Ghana Athletics • Gen. Sec. SWAG"
+      };
+
+      const $ = id => document.getElementById(id);
+
+      // Theme toggle
+      $('themeToggle')?.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+      });
+
+      // Back button
+      $('backBtn')?.addEventListener("click", () => {
+        if (history.length > 1) history.back();
+      });
+
+      // Share
+      $('shareBtn')?.addEventListener("click", async () => {
+        const shareData = {
+          title: contact.fullName,
+          text: `${contact.fullName} — ${contact.note}`,
+          url: location.href
+        };
+
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+            return;
+          } catch (err) {
+            console.warn("Share cancelled or failed", err);
+          }
+        }
+
+        try {
+          await navigator.clipboard.writeText(location.href);
+          alert("Profile link copied to clipboard.");
+        } catch (e) {
+          prompt("Copy this link:", location.href);
+        }
+      });
+
+      // vCard
+      function makeVCard(c) {
+        const lines = [
+          "BEGIN:VCARD",
+          "VERSION:3.0",
+          `FN:${c.fullName}`,
+          `N:${c.familyName};${c.givenName};;;`,
+          c.title ? `TITLE:${c.title}` : "",
+          c.org ? `ORG:${c.org}` : "",
+          c.phone ? `TEL;TYPE=CELL:${c.phone}` : "",
+          c.email ? `EMAIL;TYPE=INTERNET:${c.email}` : "",
+          c.website ? `URL:${c.website}` : "",
+          c.tiktok ? `X-SOCIALPROFILE;TYPE=tiktok:${c.tiktok}` : "",
+          c.twitter ? `X-SOCIALPROFILE;TYPE=twitter:${c.twitter}` : "",
+          c.note ? `NOTE:${c.note}` : "",
+          "END:VCARD"
+        ];
+        return lines.filter(Boolean).join("\r\n");
+      }
+
+      $('saveContactBtn')?.addEventListener("click", async () => {
+        try {
+          const vcard = makeVCard(contact);
+          const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = (contact.fullName || "contact").replace(/\s+/g, "_") + ".vcf";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        } catch (err) {
+          console.error("Failed to save vCard:", err);
+          alert("Could not save contact automatically. You can copy details manually.");
+        }
+      });
+
+      // Context copy handlers
+      const makeCopyHandler = (text, label) => e => {
+        e.preventDefault();
+        navigator.clipboard?.writeText(text).then(() => {
+          alert(`${label} copied to clipboard.`);
+        }).catch(() => {
+          prompt(`Copy ${label}:`, text);
+        });
+      };
+
+      $('callAction')?.addEventListener("contextmenu", makeCopyHandler(contact.phone, "Phone number"));
+      $('emailAction')?.addEventListener("contextmenu", makeCopyHandler(contact.email, "Email"));
+      $('siteAction')?.addEventListener("contextmenu", makeCopyHandler(contact.website, "Website"));
+      $('tiktokAction')?.addEventListener("contextmenu", makeCopyHandler(contact.tiktok, "TikTok link"));
+      $('websiteLink')?.addEventListener("contextmenu", makeCopyHandler(contact.website, "Website"));
+      $('tiktokLink')?.addEventListener("contextmenu", makeCopyHandler(contact.tiktok, "TikTok link"));
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === "s")) {
+          return;
+        }
+        const key = e.key.toLowerCase();
+        if (key === "s") {
+          e.preventDefault();
+          $('saveContactBtn')?.click();
+        } else if (key === "w") {
+          window.open(contact.website, "_blank", "noopener");
+        } else if (key === "t") {
+          window.open(contact.tiktok, "_blank", "noopener");
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>

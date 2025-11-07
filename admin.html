@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Profile - NFC Business Card</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#D4AF37", // Gold
+                        "primary-red": "#EF4444", // Red
+                        "primary-green": "#22C55E", // Green
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-stone-900 dark:text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<div class="sticky top-0 z-10 flex items-center justify-between bg-background-light/80 p-4 pb-3 backdrop-blur-sm dark:bg-background-dark/80">
+<div class="flex size-10 items-center justify-start">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<h1 class="text-lg font-bold">Manage Profile</h1>
+<div class="flex size-10 items-center justify-end">
+</div>
+</div>
+<main class="flex w-full flex-col gap-6 px-4 pb-12">
+<div class="flex flex-col gap-3 rounded-xl bg-white p-4 dark:bg-neutral-900">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold">Profile Information</h2>
+<button class="flex h-8 items-center justify-center gap-1 rounded-full bg-primary/20 px-3 text-sm font-semibold text-primary">
+<span class="material-symbols-outlined text-base">edit</span>
+<span>Edit</span>
+</button>
+</div>
+<div class="flex items-center gap-4 border-t border-stone-200 pt-3 dark:border-neutral-800">
+<div class="h-16 w-16 min-w-16 rounded-full bg-cover bg-center bg-no-repeat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGasqNkm6KGCcXEcYVX0hIljyGjT1QN3xMzQvtqI1csdwXG_jXcdRHLP94LOAy4LpL5higNZR-iHdgIPQYHzIQTmnlkTqxfbpNFCIk1ttceHuY-qaeA5JlDwortwwchHCJXlFRGwLrioWOPxrK4FljGGvphnaM69soFdSlncjQAVilBB8kBDUL7WIpwtCbL_ZKe8wJYImagxFHZg7RcdFKLg19JmJrA_yxx58tfxrO084lkPLguDfdMMguXZXLDMrYFK3T9OfXI5E");'></div>
+<div class="flex flex-col">
+<p class="font-bold">Charles Osei Asibey</p>
+<p class="text-sm text-stone-600 dark:text-stone-400">President GAF, AAF, and Vice WAF and Chairman of Ghana Olympic Committee</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-white p-4 dark:bg-neutral-900">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold">Contact Details</h2>
+<button class="flex h-8 items-center justify-center gap-1 rounded-full bg-primary/20 px-3 text-sm font-semibold text-primary">
+<span class="material-symbols-outlined text-base">edit</span>
+<span>Edit</span>
+</button>
+</div>
+<div class="flex flex-col gap-2 border-t border-stone-200 pt-3 dark:border-neutral-800">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-500">phone</span>
+<p class="font-medium">+233 24 431 5243</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-stone-500">mail</span>
+<p class="font-medium">charles.asibey@example.com</p>
+</div>
+<div class="flex items-center gap-3">
+<svg class="h-5 w-5 fill-stone-500" viewBox="0 0 24 24">
+<path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h11.62V14.71h-3.18v-3.7h3.18v-2.8c0-3.14 1.87-4.85 4.7-4.85 1.35 0 2.5.1 2.84.15v3.3h-1.96c-1.52 0-1.82.72-1.82 1.78v2.32h3.67l-.48 3.7h-3.2v9.29h6.18c.97 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0z"></path>
+</svg>
+<p class="font-medium">@charles.osei.asibey</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-white p-4 dark:bg-neutral-900">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold">Sports Activities</h2>
+<button class="flex h-8 items-center justify-center gap-1 rounded-full bg-primary/20 px-3 text-sm font-semibold text-primary">
+<span class="material-symbols-outlined text-base">edit</span>
+<span>Edit</span>
+</button>
+</div>
+<div class="flex flex-col gap-2 border-t border-stone-200 pt-3 dark:border-neutral-800">
+<div class="flex items-center gap-3 rounded-lg p-2 hover:bg-stone-100 dark:hover:bg-neutral-800">
+<span class="material-symbols-outlined text-stone-500">sports_kabaddi</span>
+<p class="font-medium">Armwrestling Events</p>
+</div>
+<div class="flex items-center gap-3 rounded-lg p-2 hover:bg-stone-100 dark:hover:bg-neutral-800">
+<span class="material-symbols-outlined text-stone-500">sports</span>
+<p class="font-medium">Olympic Games</p>
+</div>
+<div class="flex items-center gap-3 rounded-lg p-2 hover:bg-stone-100 dark:hover:bg-neutral-800">
+<span class="material-symbols-outlined text-stone-500">fitness_center</span>
+<p class="font-medium">Weightlifting</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl bg-white p-4 dark:bg-neutral-900">
+<div class="flex items-center justify-between">
+<h2 class="text-lg font-bold">Achievement Gallery</h2>
+<button class="flex h-8 items-center justify-center gap-1 rounded-full bg-primary/20 px-3 text-sm font-semibold text-primary">
+<span class="material-symbols-outlined text-base">file_upload</span>
+<span>Upload</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2 border-t border-stone-200 pt-3 dark:border-neutral-800">
+<div class="relative aspect-square w-full overflow-hidden rounded-lg">
+<img alt="Ghanaian athletes competing in an armwrestling match." class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsOecJOpVJp3WmcQER_MRDc-toDVaZQHA4LhV8zHRTT2C0xCTtf0fyQUxDG7_w59Vq8JluvApgrdj7YSCSAqFuR4pAoOazNPM1ElMRHPvWKw45WfdDGDS637Alb_Z248Vd9G-0YnFLqXceZ-pf_p4gNE1qIpRCLD67roWacepsUFGeMRPiXtoZ4XIcu7mTzjemPdcO0nrLbsdWdPHSMeiQW6XtGscahpSZnjxSkQWhalCxZr9sDXbYDo2-pqhbjZJvx1lRE0ZsDIY"/>
+</div>
+<div class="relative aspect-square w-full overflow-hidden rounded-lg">
+<img alt="Ghana armwrestling team posing with medals at an international event." class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAQxfTipRogsVrgovuppKlZy_o8M-Ov1ITmUKTkEO3Qa72vlN3KthSCu9SWMlVZUC0QRkhsThVplEX7Ua0TOLYFO8VKcJ84qAnVXoGJ22L6oBHvtdwbUyvzHEkIwPzs-7BML_fLiCj1-RgGyxjiGl5Vbcgv6tnxcZl7df1iV1hrubp2WEw1rlTRZl5Ip6ORw-FHiQ4b_ICFHRff4pthxl8yrQ67Fyh8yY5vyCpzqSo42BRVgu-SYSH-OgzmQqgSN95fbBSzuJuXQU"/>
+</div>
+<div class="relative aspect-square w-full overflow-hidden rounded-lg">
+<img alt="Ghanaian Olympic athlete competing in a track and field event." class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfdjWIEBt-6ZIzbEFHkhGCVkbYrAqus8wmzSnU5w6rKQbwEKU7dykW7rkGkWO-dvv0Trb1X-brbRJOrYY1s_GuGt0p17a5p7htjVFoLkNXELe9FUS4jhdXHTsvdaKtxQa3_ThZAfPNvoI7iC8aioCKRK0BZ-2V4ioeoZRimrr2_ll1rxaT7byxPadN5azOZvUmUCNIdm4hWhj-GTq7zDcmMcBrH8TaOeNMR_hqLMdtWpGXOAIdAJzri_O7bZAsD7aFRjg4o527_2s"/>
+</div>
+<div class="relative aspect-square w-full overflow-hidden rounded-lg">
+<img alt="A weightlifter from Ghana lifting heavy weights during a competition." class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv7AsMJ80wFfYqOzfjdIuyIQpPNBIky1xh-JC7ekyqNdkIZebmGmpA00Ta08sPFFeuFyc_M2s79H-0AYHLBtA-n3dO4ejjAjZSysRfRyX7d2ju0tbznKRcokpXskgE0c7OvxOwXkgl9eHFUJ6i_0ugFJb2tuSRWwi0C3_KG8l9_QF2mbSQ1ISNMZLYl5-85nln8dsVhsgxl825wmRMquY1J_DCbbZo4F5n0GGtR7EeBsC1U3M1d9k6oAjoJ8zlGqSN6v0lp6xBdkQ"/>
+</div>
+<button class="flex aspect-square w-full items-center justify-center rounded-lg border-2 border-dashed border-stone-300 bg-stone-50 text-stone-500 dark:border-neutral-700 dark:bg-neutral-800 dark:text-stone-400">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+  <script src="/firebase-init.js"></script>
+</body>
+</html>

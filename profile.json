@@ -1,0 +1,31 @@
+{
+  "fullname": "Priscilla Mensah",
+  "title": "Creative Director",
+  "company": "SoftPalm Studios",
+  "phone": "+233501234567",
+  "email": "hello@softpalm.example",
+  "website": "https://softpalm.example",
+  "bio": "Creative Director building digital futures. Branding, web design, photography.",
+  "services": [
+    {
+      "name": "Branding",
+      "desc": "Logo, identity, strategy"
+    },
+    {
+      "name": "Web Design",
+      "desc": "Mobile-first, PWA"
+    },
+    {
+      "name": "Photography",
+      "desc": "Product & lifestyle"
+    },
+    {
+      "name": "Consulting",
+      "desc": "Digital strategy"
+    }
+  ],
+  "portfolio": [
+    "assets/portfolio-1.svg",
+    "assets/portfolio-2.svg"
+  ]
+}
